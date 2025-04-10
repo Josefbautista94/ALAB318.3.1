@@ -46,6 +46,7 @@ router.post("/", (req, res, next) => { // Creating a post route at /api/comments
     res.status(201).json(newComment); // sends a 201 response with the newly added comment 
 })
 
+// GET /api/comments/:id
 router.get("/:id", (req, res, next) => { // setting up a get route that listens at /api/comments/:id, ex : /api/comments/5
 
     const comment = comments.find(c => c.id == req.params.id); // looking through the comments array for a comment whose id matches the one in the URL
@@ -56,6 +57,19 @@ router.get("/:id", (req, res, next) => { // setting up a get route that listens 
     }
     res.json(comment) // if there is a matching comment this send it back to the client in JSON format
 
+})
+
+//PATCH /api/comments/:id
+router.patch("/:id", (req,res,next)=>{ // defining a PATCH route at /api/comments/:id
+
+    const comment = comments.find( c => c.id == req.params.id); //  Searches the comments array for a comment with a matching id
+
+    if(!comment){ // if no comment was found it would throw a 404
+        return next(error(404,"The comment wasn't found!"))
+    }
+
+    comment.body =req.body.body || comment.body; // This updates the body of the comment ONLY if a new one is provided in the request, so if req.body.body exists, it replaces the old body, if not the comment stays the same(fallback assignment)
+    res.json(comment); //Responds with the updated comment as JSON but if there weren't any changes , made it returns the original
 })
 
 module.exports = router;
