@@ -9,6 +9,8 @@ const error = require("./error");
 const app = express();
 const port = 3000;
 
+;
+
 // Parsing Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ extended: true }));
@@ -30,6 +32,8 @@ ${time.toLocaleTimeString()}: Received a ${req.method} request to ${req.url}.`
 
 // Valid API Keys.
 apiKeys = ["perscholas", "ps-example", "hJAsknw-L198sAJD-l3kasx"];
+
+
 
 // New middleware to check for API keys!
 // Note that if the key is not verified,
@@ -53,6 +57,10 @@ app.use("/api", function (req, res, next) {
 // Use our Routes
 app.use("/api/users", usersRoutes);
 app.use("/api/posts", postsRoutes);
+
+const commentsRoutes = require("../routes/comments");
+app.use("/api/comments", commentsRoutes); // ✅ moved up here
+
 
 // Adding some HATEOAS links.
 app.get("/", (req, res) => {
@@ -116,3 +124,4 @@ app.use((err, req, res, next) => {
 app.listen(port, () => {
   console.log(`Server listening on port: ${port}.`);
 });
+

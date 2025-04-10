@@ -5,7 +5,7 @@ const posts = require("../data/posts");
 const error = require("../utilities/error");
 
 router
-  .route("/")
+.route("/")
   .get((req, res) => {
     const links = [
       {
