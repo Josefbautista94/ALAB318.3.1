@@ -46,5 +46,17 @@ router.post("/", (req, res, next) => { // Creating a post route at /api/comments
     res.status(201).json(newComment); // sends a 201 response with the newly added comment 
 })
 
+router.get("/:id", (req, res, next) => { // setting up a get route that listens at /api/comments/:id, ex : /api/comments/5
+
+    const comment = comments.find(c => c.id == req.params.id); // looking through the comments array for a comment whose id matches the one in the URL
+
+    if (!comment) {
+        return next(error(404, "The comment wasn't found!")) // If the comment isnt founf it returns a 404
+
+    }
+    res.json(comment) // if there is a matching comment this send it back to the client in JSON format
+
+})
+
 module.exports = router;
 
